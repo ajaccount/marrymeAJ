@@ -3,101 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marry Me AJ ❤️</title>
+<title>AJ ❤️ Marry Me</title>
 
 <style>
-    body {
-        text-align: center;
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    h1 {
-        font-size: 3em;
-        color: white;
-        margin-bottom: 20px;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg,#ff758c,#ff7eb3);
+    overflow-x: hidden;
+    color: white;
+}
 
-    img {
-        width: 250px;
-        transition: transform 0.5s ease;
-        margin-bottom: 30px;
-    }
+/* PASSWORD SCREEN */
+#passwordScreen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-    .buttons {
-        display: flex;
-        gap: 20px;
-    }
+input {
+    padding: 12px;
+    border-radius: 30px;
+    border: none;
+    margin-top: 15px;
+    text-align: center;
+}
 
-    button {
-        padding: 15px 30px;
-        font-size: 20px;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+button {
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
 
-    #yesBtn {
-        background-color: #ff4d6d;
-        color: white;
-    }
+/* MAIN CONTENT */
+#mainContent {
+    display: none;
+    padding: 20px;
+}
 
-    #noBtn {
-        background-color: #444;
-        color: white;
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+img {
+    width: 90%;
+    max-width: 350px;
+    border-radius: 20px;
+    margin: 10px 0;
+    transition: 0.5s;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+#yesBtn {
+    background: #ff1744;
+    color: white;
+    font-size: 20px;
+}
+
+#noBtn {
+    background: #333;
+    color: white;
+    font-size: 20px;
+}
+
+/* Roses */
+.rose {
+    position: fixed;
+    top: -10px;
+    font-size: 24px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
     }
+}
+
+/* Countdown */
+#countdown {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+/* Fireworks */
+.firework {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    background: gold;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform: scale(20);
+        opacity: 0;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<h1>AJ ❤️<br>Will You Marry Me?</h1>
+<!-- PASSWORD -->
+<div id="passwordScreen">
+    <h1>Enter Secret Code 💖</h1>
+    <input type="password" id="passwordInput" placeholder="Enter Code">
+    <button onclick="checkPassword()">Unlock</button>
+</div>
 
-<img id="loveImg" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Love">
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+    <h1>AJ ❤️<br>Will You Marry Me?</h1>
 
-<div class="buttons">
-    <button id="yesBtn">YES 💍</button>
-    <button id="noBtn">NO 😢</button>
+    <div id="countdown">Time left: 60</div>
+
+    <img id="loveImg" src="pic1.jpg">
+    <img src="pic2.jpg">
+    <img src="pic3.jpg">
+
+    <div class="buttons">
+        <button id="yesBtn">YES 💍</button>
+        <button id="noBtn">NO 😢</button>
+    </div>
+
+    <!-- Hidden Music -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Google Map -->
+    <div style="margin-top:20px;">
+        <iframe 
+        src="https://maps.google.com/maps?q=Chandni%20Chowk%20Delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+        width="100%" height="200" style="border:0;border-radius:20px;">
+        </iframe>
+    </div>
+
 </div>
 
 <script>
-    let yesSize = 20;
-    let noSize = 20;
-    let rotation = 0;
+function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    if(input === "34C") {
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+        document.getElementById("bgMusic").play();
+        startRoses();
+        startCountdown();
+    } else {
+        alert("Wrong password ❤️ Try again!");
+    }
+}
 
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const img = document.getElementById("loveImg");
+/* Roses Animation */
+function startRoses() {
+    setInterval(() => {
+        const rose = document.createElement("div");
+        rose.classList.add("rose");
+        rose.innerHTML = Math.random() > 0.5 ? "🌹" : "🌺";
+        rose.style.left = Math.random() * 100 + "vw";
+        rose.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(rose);
 
-    noBtn.addEventListener("click", () => {
-        // Rotate image
-        rotation += 360;
-        img.style.transform = `rotate(${rotation}deg)`;
+        setTimeout(() => rose.remove(), 5000);
+    }, 300);
+}
 
-        // Shrink NO button
-        noSize -= 2;
-        if(noSize > 5) {
-            noBtn.style.fontSize = noSize + "px";
+/* Countdown */
+function startCountdown() {
+    let time = 60;
+    const countdown = document.getElementById("countdown");
+    const timer = setInterval(() => {
+        time--;
+        countdown.innerHTML = "Time left: " + time;
+        if(time <= 0) {
+            clearInterval(timer);
+            countdown.innerHTML = "Forever starts now ❤️";
         }
+    }, 1000);
+}
 
-        // Grow YES button
-        yesSize += 5;
-        yesBtn.style.fontSize = yesSize + "px";
-    });
+/* YES / NO Logic */
+let yesSize = 20;
+let noSize = 20;
+let rotation = 0;
 
-    yesBtn.addEventListener("click", () => {
-        document.body.innerHTML = `
-            <h1 style="color:white;">AJ SAID YESSSS!!! 💍❤️</h1>
-            <p style="font-size:30px;color:white;">Forever starts now 🥰</p>
-        `;
-    });
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const img = document.getElementById("loveImg");
+
+noBtn.addEventListener("click", () => {
+    rotation += 360;
+    img.style.transform = `rotate(${rotation}deg)`;
+
+    noSize -= 2;
+    if(noSize > 8) noBtn.style.fontSize = noSize + "px";
+
+    yesSize += 5;
+    yesBtn.style.fontSize = yesSize + "px";
+});
+
+yesBtn.addEventListener("click", () => {
+    startFireworks();
+    document.body.innerHTML = `
+        <h1 style="margin-top:40vh;">AJ SAID YESSSS!!! 💍❤️</h1>
+        <h2>Chandni Chowk ➝ Forever 🥹</h2>
+    `;
+});
+
+/* Fireworks */
+function startFireworks() {
+    for(let i=0;i<50;i++){
+        const fw = document.createElement("div");
+        fw.classList.add("firework");
+        fw.style.left = Math.random()*100 + "vw";
+        fw.style.top = Math.random()*100 + "vh";
+        document.body.appendChild(fw);
+        setTimeout(()=>fw.remove(),1000);
+    }
+}
 </script>
 
 </body>
