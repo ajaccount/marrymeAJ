@@ -6,116 +6,121 @@
 <title>AJ ❤️ Marry Me</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg,#ff758c,#ff7eb3);
-    overflow-x: hidden;
-    color: white;
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
 }
 
 /* PASSWORD SCREEN */
-#passwordScreen {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#passwordScreen{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 }
 
-input {
-    padding: 12px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 15px;
-    text-align: center;
+input{
+    padding:12px;
+    border-radius:30px;
+    border:none;
+    margin-top:15px;
+    text-align:center;
 }
 
-button {
-    padding: 12px 25px;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
+button{
+    padding:12px 25px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
 }
 
-/* MAIN CONTENT */
-#mainContent {
-    display: none;
-    padding: 20px;
+/* MAIN */
+#mainContent{
+    display:none;
+    padding:20px;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 15px;
+h1{
+    font-size:2rem;
+    margin-bottom:15px;
 }
 
-img {
-    width: 90%;
-    max-width: 350px;
-    border-radius: 20px;
-    margin: 10px 0;
-    transition: 0.5s;
+img{
+    width:90%;
+    max-width:350px;
+    border-radius:20px;
+    margin:10px 0;
+    transition:0.5s;
 }
 
-.buttons {
-    margin-top: 20px;
+.buttons{
+    margin-top:20px;
 }
 
-#yesBtn {
-    background: #ff1744;
-    color: white;
-    font-size: 20px;
+#yesBtn{
+    background:#ff1744;
+    color:white;
+    font-size:20px;
 }
 
-#noBtn {
-    background: #333;
-    color: white;
-    font-size: 20px;
+#noBtn{
+    background:#333;
+    color:white;
+    font-size:20px;
 }
 
 /* Roses */
-.rose {
-    position: fixed;
-    top: -10px;
-    font-size: 24px;
-    animation: fall linear infinite;
+.rose{
+    position:fixed;
+    top:-20px;
+    font-size:24px;
+    animation:fall linear infinite;
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(100vh);
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
     }
 }
 
 /* Countdown */
-#countdown {
-    font-size: 20px;
-    margin: 10px 0;
+#countdown{
+    font-size:18px;
+    margin:10px 0;
 }
 
 /* Fireworks */
-.firework {
-    position: fixed;
-    width: 5px;
-    height: 5px;
-    background: gold;
-    border-radius: 50%;
-    animation: explode 1s ease-out forwards;
+.firework{
+    position:fixed;
+    width:6px;
+    height:6px;
+    background:gold;
+    border-radius:50%;
+    animation:explode 1s ease-out forwards;
 }
 
-@keyframes explode {
-    to {
-        transform: scale(20);
-        opacity: 0;
+@keyframes explode{
+    to{
+        transform:scale(25);
+        opacity:0;
     }
+}
+
+iframe{
+    border-radius:20px;
+    margin-top:20px;
 }
 </style>
 </head>
@@ -144,103 +149,118 @@ img {
         <button id="noBtn">NO 😢</button>
     </div>
 
-    <!-- Hidden Music -->
-    <!-- YouTube Background Music -->
-    <iframe 
-        width="0" 
-        height="0" 
-        src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&loop=1&playlist=aYG6oEUXyuQ&list=RDaYG6oEUXyuQ&start_radio=1"
-        frameborder="0" 
-        allow="autoplay">
-    </iframe>
-
     <!-- Google Map -->
-    <div style="margin-top:20px;">
-        <iframe 
-        src="https://maps.google.com/maps?q=Chandni%20Chowk%20Delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
-        width="100%" height="200" style="border:0;border-radius:20px;">
-        </iframe>
-    </div>
-
+    <iframe 
+    src="https://maps.google.com/maps?q=Chandni%20Chowk%20Delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+    width="100%" height="200">
+    </iframe>
 </div>
 
+<!-- Hidden YouTube Player -->
+<div id="ytPlayer"></div>
+
+<!-- YouTube API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-function checkPassword() {
-    const input = document.getElementById("passwordInput").value;
-    if(input === "34C") {
-        document.getElementById("passwordScreen").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-        document.getElementById("bgMusic").play();
-        startRoses();
-        startCountdown();
-    } else {
-        alert("Wrong password ❤️ Try again!");
-    }
-}
-
-/* Roses Animation */
-function startRoses() {
-    setInterval(() => {
-        const rose = document.createElement("div");
-        rose.classList.add("rose");
-        rose.innerHTML = Math.random() > 0.5 ? "🌹" : "🌺";
-        rose.style.left = Math.random() * 100 + "vw";
-        rose.style.animationDuration = (Math.random() * 3 + 2) + "s";
-        document.body.appendChild(rose);
-
-        setTimeout(() => rose.remove(), 5000);
-    }, 300);
-}
-
-/* Countdown */
-function startCountdown() {
-    let time = 60;
-    const countdown = document.getElementById("countdown");
-    const timer = setInterval(() => {
-        time--;
-        countdown.innerHTML = "Time left: " + time;
-        if(time <= 0) {
-            clearInterval(timer);
-            countdown.innerHTML = "Forever starts now ❤️";
-        }
-    }, 1000);
-}
-
-/* YES / NO Logic */
+let player;
 let yesSize = 20;
 let noSize = 20;
 let rotation = 0;
 
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const img = document.getElementById("loveImg");
+/* YouTube Player */
+function onYouTubeIframeAPIReady(){
+    player = new YT.Player('ytPlayer',{
+        height:'0',
+        width:'0',
+        videoId:'aYG6oEUXyuQ',
+        playerVars:{
+            autoplay:0,
+            loop:1,
+            playlist:'aYG6oEUXyuQ'
+        }
+    });
+}
 
-noBtn.addEventListener("click", () => {
-    rotation += 360;
-    img.style.transform = `rotate(${rotation}deg)`;
+/* PASSWORD */
+function checkPassword(){
+    const input=document.getElementById("passwordInput").value;
 
-    noSize -= 2;
-    if(noSize > 8) noBtn.style.fontSize = noSize + "px";
+    if(input==="34C"){
+        document.getElementById("passwordScreen").style.display="none";
+        document.getElementById("mainContent").style.display="block";
 
-    yesSize += 5;
-    yesBtn.style.fontSize = yesSize + "px";
+        if(player){
+            player.playVideo();
+        }
+
+        startRoses();
+        startCountdown();
+    }else{
+        alert("Wrong password ❤️ Try again!");
+    }
+}
+
+/* Roses */
+function startRoses(){
+    setInterval(()=>{
+        const rose=document.createElement("div");
+        rose.classList.add("rose");
+        rose.innerHTML=Math.random()>0.5?"🌹":"🌺";
+        rose.style.left=Math.random()*100+"vw";
+        rose.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(rose);
+        setTimeout(()=>rose.remove(),5000);
+    },300);
+}
+
+/* Countdown */
+function startCountdown(){
+    let time=60;
+    const countdown=document.getElementById("countdown");
+    const timer=setInterval(()=>{
+        time--;
+        countdown.innerHTML="Time left: "+time;
+        if(time<=0){
+            clearInterval(timer);
+            countdown.innerHTML="Forever starts now ❤️";
+        }
+    },1000);
+}
+
+/* Buttons */
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const img=document.getElementById("loveImg");
+
+noBtn.addEventListener("click",()=>{
+    rotation+=360;
+    img.style.transform=`rotate(${rotation}deg)`;
+
+    noSize-=2;
+    if(noSize>8) noBtn.style.fontSize=noSize+"px";
+
+    yesSize+=5;
+    yesBtn.style.fontSize=yesSize+"px";
 });
 
-yesBtn.addEventListener("click", () => {
+yesBtn.addEventListener("click",()=>{
     startFireworks();
-    document.body.innerHTML = `
+    setTimeout(()=>{
+        document.body.innerHTML=`
         <h1 style="margin-top:40vh;">AJ SAID YESSSS!!! 💍❤️</h1>
         <h2>Chandni Chowk ➝ Forever 🥹</h2>
-    `;
+        `;
+    },800);
 });
 
 /* Fireworks */
-function startFireworks() {
-    for(let i=0;i<50;i++){
-        const fw = document.createElement("div");
+function startFireworks(){
+    for(let i=0;i<60;i++){
+        const fw=document.createElement("div");
         fw.classList.add("firework");
-        fw.style.left = Math.random()*100 + "vw";
-        fw.style.top = Math.random()*100 + "vh";
+        fw.style.left=Math.random()*100+"vw";
+        fw.style.top=Math.random()*100+"vh";
         document.body.appendChild(fw);
         setTimeout(()=>fw.remove(),1000);
     }
